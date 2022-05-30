@@ -1,0 +1,19 @@
+{
+    "status": "error",
+    "error": {
+        "driver": true,
+        "name": "MongoError",
+        "index": 0,
+        "code": 11000,
+        "keyPattern": {
+            "name": 1
+        },
+        "keyValue": {
+            "name": "The Forest Hiker"
+        },
+        "statusCode": 500,
+        "status": "error"
+    },
+    "message": "E11000 duplicate key error collection: natours.tours index: name_1 dup key: { name: \"The Forest Hiker\" }",
+    "stack": "MongoError: E11000 duplicate key error collection: natours.tours index: name_1 dup key: { name: \"The Forest Hiker\" }\n    at Function.create (C:\\xampp\\htdocs\\natours2\\node_modules\\mongodb\\lib\\core\\error.js:59:12)\n    at toError (C:\\xampp\\htdocs\\natours2\\node_modules\\mongodb\\lib\\utils.js:130:22)\n    at C:\\xampp\\htdocs\\natours2\\node_modules\\mongodb\\lib\\operations\\common_functions.js:258:39\n    at handler (C:\\xampp\\htdocs\\natours2\\node_modules\\mongodb\\lib\\core\\sdam\\topology.js:961:24)\n    at C:\\xampp\\htdocs\\natours2\\node_modules\\mongodb\\lib\\cmap\\connection_pool.js:352:13\n    at handleOperationResult (C:\\xampp\\htdocs\\natours2\\node_modules\\mongodb\\lib\\core\\sdam\\server.js:567:5)\n    at MessageStream.messageHandler (C:\\xampp\\htdocs\\natours2\\node_modules\\mongodb\\lib\\cmap\\connection.js:308:5)\n    at MessageStream.emit (node:events:527:28)\n    at processIncomingData (C:\\xampp\\htdocs\\natours2\\node_modules\\mongodb\\lib\\cmap\\message_stream.js:144:12)\n    at MessageStream._write (C:\\xampp\\htdocs\\natours2\\node_modules\\mongodb\\lib\\cmap\\message_stream.js:42:5)\n    at writeOrBuffer (node:internal/streams/writable:389:12)\n    at _write (node:internal/streams/writable:330:10)\n    at MessageStream.Writable.write (node:internal/streams/writable:334:10)\n    at TLSSocket.ondata (node:internal/streams/readable:754:22)\n    at TLSSocket.emit (node:events:527:28)\n    at addChunk (node:internal/streams/readable:315:12)"
+}
