@@ -6,6 +6,7 @@ const router = express.Router();
 
 //Does not follow the rest philosophy
 router.post('/signup', authController.signup);
+router.post('/login', authController.login);
 
 //Follows the rest philosophy
 router
