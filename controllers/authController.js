@@ -87,3 +87,6 @@ exports.protect = catchAsync(async (req, res, next) => {
   req.user = currentUser;
   next();
 });
+//After this we worked on Advanced postman setup where we created enviroments
+//This was just a means to transfer token and make it easier for migration
+//All changes in this part are not in the code but in postman
