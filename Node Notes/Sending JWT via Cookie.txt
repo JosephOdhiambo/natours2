@@ -1,0 +1,59 @@
+In last section, JWT should be store in HTTPS cookie
+We are currently storing our JWT string in our json response. Let's also set the token as 
+our cookie.
+
+In authcontroller in createSendToken is where we processed our JWT
+Cookie: A small piece of text the server can send to clients. When the client received the cookie, 
+It will automatically store it the automatically send it back along with ll future requests of the same server.
+A browser automatically stores a cookie that it receives and sends it back in all future requests to that server where it came from.
+It is not going to be as important to as as we are using postman. When rendering dynamic webpages, then it will become really important 
+that the browser sends the token automatically in each request.
+
+Creating and sending a cookie
+We just detach it to the response object.
+This functionality will not work in development since we are not using a browser. We set a condition such that secure is set to true
+
+
+Let's test it by creating a new user(Sign up)
+{
+    "name": "User",
+    "email": "user@jonas.uk",
+    "password": "pass1234",
+    "passwordConfirm": "pass1234",
+    "role": "guide"
+}
+
+On postan, response is the same but we get one cookie. If you click on the cookie tab,
+you will see the token stored under value column.
+We also get the name, Expiration and HTTPOnly set to true, and secure set to false.
+We can also see these details if we select cookies on the rightmost corner from body tab.
+
+Now we want to get rid of the password therefore, in our schema we have to set select to false
+so that it doesn't show up when we query for all the users but in this case, it comes from creating
+a new document. That's different . That's why we set the user.password to undefined.
+Let's go on to mongodb and delete the last created user and sign up again to see the changes.
+{
+    "name": "User",
+    "email": "user@jonas.uk",
+    "password": "pass1234",
+    "passwordConfirm": "pass1234",
+    "role": "guide"
+}
+
+{
+    "status": "success",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOWYzMDhlY2NjMTM0MWFhNDMwYzQ1ZCIsImlhdCI6MTY1NDU5OTgyMywiZXhwIjoxNjYyMzc1ODIzfQ.SEsUWGnzmR1XflOLUVCz8gAnX7bOvHvMKOJaV2WqxhA",
+    "data": {
+        "user": {
+            "role": "user",
+            "active": true,
+            "_id": "629f308eccc1341aa430c45d",
+            "name": "User",
+            "email": "user@jonas.uk",
+            "__v": 0
+        }
+    }
+}
+As you can see, password field does not exist in this postman request.
+We have a new cookie. This is because the old one has been overidden by the new one
+and assigned to jwt on postman

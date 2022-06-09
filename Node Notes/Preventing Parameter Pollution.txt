@@ -1,0 +1,85 @@
+Let's head out to postman and see why we need to prevent parameter pollution
+
+First off, we need to login to use the getAllTours route
+
+{{URL}}api/v1/users/login: POST
+{
+    "email": "admin@jonas.com",
+    "password": "pass1234"
+}
+
+go to getAllTours route and ad some parameters
+{{URL}}api/v1/tours?sort=duration&sort=price
+
+The error is:
+"message": "this.queryString.sort.split is not a function"
+
+within apiFeatures.js:
+ sort() {
+    if (this.queryString.sort) {
+      console.log(this.queryString.sort);
+      const sortBy = this.queryString.sort.split(',').join(' ');
+      this.query = this.query.sort(sortBy);
+    } else {
+      this.query = this.query.sort('-createdAt');
+    }
+
+    return this;
+  }
+[ 'duration', 'price' ]// result of 'console.log(this.queryString.sort)'
+
+we'll use a middleware which will remove these duplicate fields
+
+npm i hpp
+
+http parameter pollution
+
+run this request
+{{URL}}api/v1/tours?sort=duration&sort=price
+
+in app.js, add
+app.use(hpp());
+
+
+
+run the request again. 
+It will succesfully give back all the tours and they will be sorted.
+
+However, we want somw duplicate properties. e.g we might want to search for 
+tours with a duration of 9 and 5.
+
+{{URL}}api/v1/tours?duration=9&duration=5: GET
+
+
+if we did not have our hpp middleware active, it would work.
+We can whitelist some parameters.
+Whitelist is simply an arrayof properties for which we actually allow duplicates in
+the query string.
+
+
+{{URL}}api/v1/tours?duration=9&duration=5: GET
+
+we get 3 results instead of 8. The sanitization is succesful.
+Plus our sort functionality still works
+
+{{URL}}api/v1/tours?sort=duration&sort=price: GET
+if we try running this request, it will sort the records appropriately so that hpp middleware is
+working correctly.
+We should specify other fields in our whitelist. eg if we want to search for ratingsAverage or ratingsQuantity
+
+
+app.use(
+  hpp({
+    whitelist: [
+      'duration',
+      'ratingsAverage',
+      'ratingsQuantity',
+      'maxGroupSize',
+      'difficulty',
+      'price'
+    ]
+  })
+);
+We'll have to add other fields to this whitelist in future
+
+
